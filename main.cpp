@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 //Takes a file path as an argument and returns its contents as a string
 std::string readFileIntoString(const std::string path) {
