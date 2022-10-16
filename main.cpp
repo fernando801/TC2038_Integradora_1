@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 
+//Takes a file path as an argument and returns its contents as a string
 std::string readFileIntoString(const std::string path) {
     std::ifstream input_file(path);
     if (!input_file.is_open()) {
