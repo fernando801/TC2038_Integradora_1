@@ -17,7 +17,7 @@ std::string readFileIntoString(const std::string path) {
     
 // }
 
-int longestPalindromicSubstring(){
+void longestPalindromicSubstring(){
     std::string file1 = readFileIntoString("transmission1.txt");
     std::string file2 = readFileIntoString("transmission2.txt");
     std::string t = "|";
@@ -27,6 +27,8 @@ int longestPalindromicSubstring(){
         t = t + file1[i];
         t = t + sep;  
     }
+
+    std::cout << t <<std::endl;
     
     int N = t.size();
 
@@ -40,54 +42,65 @@ int longestPalindromicSubstring(){
 
     int C = 1;
 
-    int Ri = 0;
     int Li = 0;
 
-    for (Ri = 2; Ri < N-1; Ri++){
+    for (int Ri = 2; Ri < N; Ri++){
+        
         Li = C - (Ri - C);
         bool expansion = false;
         if ((C + L[C]) - Ri >= 0){
             if (L[Li] < (C + L[C]) - Ri){
                 L[Ri] = L[Li];
 
-            }else if((L[Li] = (C + L[C] - Ri)) && (C + L[C]) == N - 1){
+            }else if((L[Li] == (C + L[C] - Ri)) && (C + L[C]) == N - 1){
                 L[Ri] = L[Li];
 
-            }else if ((L[Li] = (C + L[C]) - Ri) && ((C + L[C]) < N - 1)){
+            }else if ((L[Li] == (C + L[C]) - Ri) && ((C + L[C]) < N - 1)){
                 L[Ri] = L[Li];
                 expansion = true;
 
             }else if ((L[Li] > (C + L[C] - Ri) && (C + L[C]) < N - 1)){
                 L[Ri] = (C + L[C]) - Ri;
                 expansion = true;
+            }
             
-            }else{
-                L[Ri] = 0;
-                expansion = true;
+        }else{
+            L[Ri] = 0;
+            expansion = true;
 
-            }
-            if (expansion){
-                while (Ri + L[Ri] < N && Ri - L[Ri] > 0 && t[Ri - L[Ri] - 1] == t[Ri + L[Ri] + 1]){
-                    L[Ri] = L[Ri] + 1;
-                }
-            }
-            if (Ri > C + L[C]){
-                C = Ri;
-            }
-            if (L[Ri] > maxLong){
-                maxLong = L[Ri];
-                maxCentro = Ri;
-            }
         }
+        if (expansion){
+            
+            while ((Ri + L[Ri] < N) && (Ri - L[Ri] > 0) && (t[Ri - L[Ri] - 1] == t[Ri + L[Ri] + 1])){
+                L[Ri] = L[Ri] + 1;
+            }
+
+        }
+
+        if (Ri > C + L[C]){
+                
+            C = Ri;
+        }
+
+        if (L[Ri] > maxLong){
+            maxLong = L[Ri];
+            maxCentro = Ri;
+        }
+    }
+
+    // std::cout << maxLong << std::endl;
+    // std::cout << maxCentro << std::endl;
+    // std::cout << Ri << std::endl;
+
+    for (int i = 0; i < L.size(); i ++){
+        std::cout << L[i] << std::endl;
     }
 
     int inicio = (maxCentro - maxLong) / 2;
     int m = maxLong;
 
-    std::cout << inicio << std::endl;
-    std::cout << m << std::endl;
-
-    return inicio, m;
+    // std::cout << inicio << std::endl;
+    // std::cout << m << std::endl;
 }
 
 // void longestCommonSubstring(){
@@ -99,7 +112,7 @@ int main(int argc, char const *argv[]){
     // patternSearch();
 
 
-    std::cout << longestPalindromicSubstring();
+    longestPalindromicSubstring();
 
 
     // longestCommonSubstring();
