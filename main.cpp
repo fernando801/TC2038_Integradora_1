@@ -13,22 +13,19 @@ std::string readFileIntoString(const std::string path) {
     return std::string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
 }
 
-// void patternSearch(){
+void patternSearch(){
     
-// }
+}
 
-void longestPalindromicSubstring(){
-    std::string file1 = readFileIntoString("transmission1.txt");
-    std::string file2 = readFileIntoString("transmission2.txt");
+void longestPalindromicSubstring(std::string file){
+    
     std::string t = "|";
     std::string sep = "|";
 
-    for (int i = 0; i < file1.size(); i++){
-        t = t + file1[i];
+    for (int i = 0; i < file.size(); i++){
+        t = t + file[i];
         t = t + sep;  
     }
-
-    std::cout << t <<std::endl;
     
     int N = t.size();
 
@@ -88,34 +85,29 @@ void longestPalindromicSubstring(){
         }
     }
 
-    // std::cout << maxLong << std::endl;
-    // std::cout << maxCentro << std::endl;
-    // std::cout << Ri << std::endl;
-
-    for (int i = 0; i < L.size(); i ++){
-        std::cout << L[i] << std::endl;
-    }
-
     int inicio = (maxCentro - maxLong) / 2;
     int m = maxLong;
 
-    // std::cout << inicio << std::endl;
-    // std::cout << m << std::endl;
+    std::cout << "El codigo espejeado mas largo inicia en y termina en : " << std::endl;
+    std::cout << inicio << " " << m << std::endl;
 }
 
-// void longestCommonSubstring(){
+void longestCommonSubstring(){
 
-// }
+}
 
 int main(int argc, char const *argv[]){
+    
 
-    // patternSearch();
+    patternSearch();
+
+    std::string file1 = readFileIntoString("transmission1.txt");
+    std::string file2 = readFileIntoString("transmission2.txt");
+    longestPalindromicSubstring(file1);
+    longestPalindromicSubstring(file2);
 
 
-    longestPalindromicSubstring();
-
-
-    // longestCommonSubstring();
+    longestCommonSubstring();
 
 
     return 0;
