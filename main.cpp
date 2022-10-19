@@ -207,7 +207,6 @@ void longestPalindromicSubstring(std::string file){
     int m = maxLong;
 
     // Imprimimos los resutlados
-    std::cout << "El codigo espejeado mas largo inicia en y termina en : " << std::endl;
     std::cout << inicio + 1 << " " << m << std::endl;
 }
 
