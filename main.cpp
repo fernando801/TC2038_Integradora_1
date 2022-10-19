@@ -120,9 +120,9 @@ void patternSearch(){
 
 }
 
-// Function that seeks the longest palindromic string and prints out the first position of the String and the length of this string
+// Función que busca el palíndromo
 void longestPalindromicSubstring(std::string file){
-    // We form our string with the special character in order to make it always an odd length stirng
+    // Formamos nuestro string con el caracter espcial | en medio de cada caracter, al inicio y al final del string
     std::string t = "|";
     std::string sep = "|";
 
@@ -131,8 +131,7 @@ void longestPalindromicSubstring(std::string file){
         t = t + sep;  
     }
     
-    // We make N of the same size as t so we can make out L array as the same length as t (string with special character)
-    // and we declare other variables for our for cycle
+    // Hacemos N del tamaño de t para poder hacer nuestro arreglo L del mismo tamaño y no tener problemas en el recorrido, declaramos variables futuramente usadas
     int N = t.size();
 
     std::vector<int> L(N);
@@ -148,27 +147,27 @@ void longestPalindromicSubstring(std::string file){
     int Li = 0;
 
 
-    // This for cycle makes de Ri go from the position 2 to de N-1 position in order to see all the positions
+    // El ciclo for recorre todas las posiciones dentro del string
     for (int Ri = 2; Ri < N; Ri++){
         
-        // We calculate Li and make expansion false so we can see each case that our string can land on and if its case 3, 4 or none, expansion turns true
+        // Calculamos Li y empezamos a comparar para ver en que caso termina nuestro string, dependiendo del caso expand se volverá true o se quedará en false
         Li = C - (Ri - C);
         bool expansion = false;
         if ((C + L[C]) - Ri >= 0){
-            // Case 1
+            // Caso 1
             if (L[Li] < (C + L[C]) - Ri){
                 L[Ri] = L[Li];
 
-            // Case 2
+            // Caso 2
             }else if((L[Li] == (C + L[C] - Ri)) && (C + L[C]) == N - 1){
                 L[Ri] = L[Li];
 
-            // Case 3
+            // Caso 3
             }else if ((L[Li] == (C + L[C]) - Ri) && ((C + L[C]) < N - 1)){
                 L[Ri] = L[Li];
                 expansion = true;
 
-            // Case 4
+            // Caso 4
             }else if ((L[Li] > (C + L[C] - Ri) && (C + L[C]) < N - 1)){
                 L[Ri] = (C + L[C]) - Ri;
                 expansion = true;
@@ -180,8 +179,8 @@ void longestPalindromicSubstring(std::string file){
 
         }
 
-        // If it's possible to expand the palindromic string we enter on a while cycle, this while cycle verifies that we're still inside the string
-        // and compares each character on the right and left from C in order to decide whether we can still expand or not
+        // Si podemos expandir entonces entramos el ciclo while el cuál es el encargado de ir comparando caracter por caracter en la izquierda y derecha, si coindicen
+        // entonces le aumenta 1 a valor en la posición Ri en el arrelgo de L
         if (expansion){
             
             while ((Ri + L[Ri] < N) && (Ri - L[Ri] > 0) && (t[Ri - L[Ri] - 1] == t[Ri + L[Ri] + 1])){
@@ -190,24 +189,24 @@ void longestPalindromicSubstring(std::string file){
 
         }
 
-        // If we surpass the C limit then that means we have encountered a new longest palindrome so we change C
+        // Si superamos el límite de C entonces le damos el nuevo valor a C
         if (Ri > C + L[C]){
                 
             C = Ri;
         }
 
-        // If we surpass the length of the last longest palindromic stirng we had registered then we change the length of the longest palindrome
+        // Si superamos la longitud del palíndromo que calculamos anteriormente entonces cambiamos nuestro palíndromo más largo por el nuevo encontrado
         if (L[Ri] > maxLong){
             maxLong = L[Ri];
             maxCentro = Ri;
         }
     }
 
-    // We calculate the first position and take de length of the string
+    // Calculamos la primera posición y asignamos la longitud
     int inicio = (maxCentro - maxLong) / 2;
     int m = maxLong;
 
-    // Print out our results
+    // Imprimimos los resutlados
     std::cout << "El codigo espejeado mas largo inicia en y termina en : " << std::endl;
     std::cout << inicio + 1 << " " << m << std::endl;
 }
