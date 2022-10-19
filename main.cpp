@@ -1,3 +1,14 @@
+// Situación problema I
+// El siguiente código da solución de la situación problema acerca de la identificación de strings o patrones en archivos de texto,
+// realiza diferentes actividades con los cinco archivos de texto mcode1.txt, mcode2.txt, mcode3.txt, transmission1.txt y transmission2.txt
+// 
+// Última modicación: 19 de octubre de 2022
+//
+// Autores:
+//              Jorge Omar López Gemignini      A01769675
+//              Fernando Reséndiz Bautista      A01769659
+//              Carlos Eduardo Jiménez          A01769960
+
 #include <iostream>
 #include <fstream>
 #include <vector>
