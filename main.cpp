@@ -206,7 +206,7 @@ void longestPalindromicSubstring(std::string file){
 
     // Calculamos la primera posición y asignamos la longitud
     int inicio = (maxCentro - maxLong) / 2;
-    int m = maxLong;
+    int m = inicio + maxLong;
 
     // Imprimimos los resutlados
     std::cout << inicio + 1 << " " << m << std::endl;
