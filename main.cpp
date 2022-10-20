@@ -13,12 +13,11 @@
 #include <fstream>
 #include <vector>
 
-//Takes a file path as an argument and returns its contents as a string
+//Toma la dirección de un archivo como argumento y devuelve su contenido en forma de string
 std::string readFileIntoString(const std::string path) {
     std::ifstream input_file(path);
     if (!input_file.is_open()) {
-        std::cerr << "Could not open the file - '"
-             << path << "'" << std::endl;
+        std::cerr << "Could not open the file - '"<< path << "'" << std::endl;
         exit(EXIT_FAILURE);
     }
     return std::string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
@@ -26,71 +25,63 @@ std::string readFileIntoString(const std::string path) {
 
 int findPattern(std::string pattern, std::string text){
 
-    // Se concatena el patrón a buscar con un símbolo y el texto en el que
-    // se va a buscar, para que de esta manera el patrón sea un prefijo
-    std::string concat = pattern + "$" + text;
+    int n = text.length();
+    int m = pattern.length();
 
-    int n = concat.length();
-
-    std::vector<int> z(n, 0);
+    std::vector<int> V(m,0);
 
 
-    // Se utiliza el algoritmo de la función Z para buscar substrings 
-    // que a la vez sean prefijos
-    
-    int l = 0; // Limite inferior del substring que también es prefijo que llega más a la derecha 
-    int r = 0; // Limite superior del substring que también es prefijo que llega más a la derecha
-    int k = 0; // Posición en el prefijo que corresponde a la posición actual
-
-    // Se recorre cada caracter del string
-    for(int i = 1; i < n; i++){
-
-        if(i > r){
-            // Si el caracter actual se encuentra fuera de l y r se reinician los valores
-            // de l y r a la posición actual
-            l = i;
-            r = i;
-
-            // Se compara caracter por caracter para encontrar los nuevos valroes de l y r
-            while (r < n && concat[r - l] == concat[r]){
-                r++;
-            }
-
-            // Se asigna el valor de Z[i] como la diferencia entre l y r
-            z[i] = r - l;
-            r--;
+    // Realiza el preprocesamiento del patrón
+    int i = 1; // posición en el patrón
+    int j = 0; // posición en el prefijo del patrón
+    while(i < m){
+        if(pattern[i] == pattern[j]){
+            // Si i coincide con j el valor de j aumenta y le corresponde a V[i]
+            V[i] = j + 1;
+            i++;
+            j++;
         }else{
-            // Si i se encuentra entre l y r
-
-            // k se asigna a la posición correspondiente en el prefijo
-            k = i - l;
-
-            if(z[k] < r - i + 1){
-                // Si el valor de Z[k] es menor al número de caracteres entre i y r, Z[i] = Z[k]
-                z[i] = z[k];
+            if(j == 0){
+                // Si j es 0 el valor en V[i] solo puede ser 0
+                V[i] = 0;
+                i++;
             }else{
-                // Si no se reinician los valores de l y r y se evalua caracter por caracter
-                l = i;
-
-                while (r < n && concat[r - l] == concat[r]){
-                    r++;
-                }
-
-                z[i] = r - l;
-                r--;
+                // Si no coinciden j vuevle a la primera posición equivalente
+                j = V[j-1];
             }
-        }
-
-        // Si la longitud del substring encontrado es igual a la del patrón quiere decir
-        // que se encontró el patrón
-        if(z[i] == pattern.length()){
-
-            // Se devuelve la posición del patrón en el texto original
-            return i - pattern.length() - 1;
         }
     }
 
-    // Si no se encuentra el patrón se devuelve -1
+    int position = 0;
+
+    i = 0;
+    j = 0;
+
+    while(i < n){
+        if(text[i] == pattern[j]){
+            // Si hay coincidencia avanza
+            i++;
+            j++;
+            if(j == m){
+                // Si se encontro el patrón completo se devuelve la posición
+                return position;
+            }
+        }else{
+            // Si no hay concidencia decide con que posición del patrón seguir comparando
+            if(j == 0){
+                // Si la coincidencia se detuvo al inicio del patrón sigue comparando con el
+                // inicio del patrón
+                i++;
+                position = i;
+            }else{
+                // Si se detuvo en un punto en el que el patrón está repitiendo su prefijo,
+                // ahora tratara de comparar desde esa posición ene el prefijo.
+                position = i - V[j-1];
+                j = V[j-1];
+            }
+        }
+    }
+
     return -1;
 }
 
