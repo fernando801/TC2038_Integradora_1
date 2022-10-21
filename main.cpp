@@ -115,7 +115,7 @@ void patternSearch(){
             }else{
             // Si encuentra el patrón imprime true, seguido de la posición en 
             // la que se encuentra
-                std::cout<<"true "<<index<<std::endl;
+                std::cout<<"true "<<index + 1<<std::endl;
             }
         }
     }
